@@ -1,4 +1,4 @@
-package tech.buildrun.springsecurity.entities;
+package fiapx.security.springsecurity.entities;
 
 import jakarta.persistence.*;
 
@@ -30,8 +30,8 @@ public class Role {
 
     public enum Values {
 
-        ADMIN(1L),
-        BASIC(2L);
+        ADMIN(0L),
+        BASIC(1L);
 
         long roleId;
 

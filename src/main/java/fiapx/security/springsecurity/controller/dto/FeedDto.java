@@ -1,4 +1,4 @@
-package tech.buildrun.springsecurity.controller.dto;
+package fiapx.security.springsecurity.controller.dto;
 
 import java.util.List;
 

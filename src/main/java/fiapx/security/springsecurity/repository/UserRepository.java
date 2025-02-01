@@ -1,8 +1,8 @@
-package tech.buildrun.springsecurity.repository;
+package fiapx.security.springsecurity.repository;
 
+import fiapx.security.springsecurity.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import tech.buildrun.springsecurity.entities.User;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -8,13 +8,13 @@
 		<version>3.2.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>tech.buildrun</groupId>
+	<groupId>fiapx.security</groupId>
 	<artifactId>springsecurity</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>springsecurity</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

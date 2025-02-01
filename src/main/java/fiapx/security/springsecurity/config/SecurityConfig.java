@@ -1,4 +1,4 @@
-package tech.buildrun.springsecurity.config;
+package fiapx.security.springsecurity.config;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -30,6 +30,7 @@ public class SecurityConfig {
 
     @Value("${jwt.public.key}")
     private RSAPublicKey publicKey;
+
     @Value("${jwt.private.key}")
     private RSAPrivateKey privateKey;
 

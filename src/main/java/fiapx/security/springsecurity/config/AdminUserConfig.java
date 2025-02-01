@@ -1,13 +1,13 @@
-package tech.buildrun.springsecurity.config;
+package fiapx.security.springsecurity.config;
 
+import fiapx.security.springsecurity.entities.Role;
+import fiapx.security.springsecurity.entities.User;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import tech.buildrun.springsecurity.entities.Role;
-import tech.buildrun.springsecurity.entities.User;
-import tech.buildrun.springsecurity.repository.RoleRepository;
-import tech.buildrun.springsecurity.repository.UserRepository;
+import fiapx.security.springsecurity.repository.RoleRepository;
+import fiapx.security.springsecurity.repository.UserRepository;
 
 import java.util.Set;
 

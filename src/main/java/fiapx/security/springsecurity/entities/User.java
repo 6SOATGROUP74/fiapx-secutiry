@@ -1,8 +1,8 @@
-package tech.buildrun.springsecurity.entities;
+package fiapx.security.springsecurity.entities;
 
 import jakarta.persistence.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import tech.buildrun.springsecurity.controller.dto.LoginRequest;
+import fiapx.security.springsecurity.controller.dto.LoginRequest;
 
 import java.util.Set;
 import java.util.UUID;

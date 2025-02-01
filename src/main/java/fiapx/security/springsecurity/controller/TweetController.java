@@ -1,4 +1,4 @@
-package tech.buildrun.springsecurity.controller;
+package fiapx.security.springsecurity.controller;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -7,13 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import tech.buildrun.springsecurity.controller.dto.CreateTweetDto;
-import tech.buildrun.springsecurity.controller.dto.FeedDto;
-import tech.buildrun.springsecurity.controller.dto.FeedItemDto;
-import tech.buildrun.springsecurity.entities.Role;
-import tech.buildrun.springsecurity.entities.Tweet;
-import tech.buildrun.springsecurity.repository.TweetRepository;
-import tech.buildrun.springsecurity.repository.UserRepository;
+import fiapx.security.springsecurity.controller.dto.FeedDto;
+import fiapx.security.springsecurity.controller.dto.FeedItemDto;
+import fiapx.security.springsecurity.entities.Role;
+import fiapx.security.springsecurity.repository.UserRepository;
 
 import java.util.UUID;
 

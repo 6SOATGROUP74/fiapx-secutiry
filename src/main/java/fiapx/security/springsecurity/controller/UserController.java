@@ -1,4 +1,4 @@
-package tech.buildrun.springsecurity.controller;
+package fiapx.security.springsecurity.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import tech.buildrun.springsecurity.controller.dto.CreateUserDto;
-import tech.buildrun.springsecurity.entities.Role;
-import tech.buildrun.springsecurity.entities.User;
-import tech.buildrun.springsecurity.repository.RoleRepository;
-import tech.buildrun.springsecurity.repository.UserRepository;
+import fiapx.security.springsecurity.controller.dto.CreateUserDto;
+import fiapx.security.springsecurity.entities.Role;
+import fiapx.security.springsecurity.entities.User;
+import fiapx.security.springsecurity.repository.RoleRepository;
+import fiapx.security.springsecurity.repository.UserRepository;
 
 import java.util.List;
 import java.util.Set;
