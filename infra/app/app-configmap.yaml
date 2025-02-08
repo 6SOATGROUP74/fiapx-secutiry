@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-pedido-configmap
+data:
+  MYSQL_URL: jdbc:mysql://shogun-pedido-database.crax9dqhkq1j.us-east-1.rds.amazonaws.com:3306/db_soat_pedido?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+

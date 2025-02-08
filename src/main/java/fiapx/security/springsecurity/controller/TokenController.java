@@ -38,11 +38,11 @@ public class TokenController {
         var user = userRepository.findByUsername(loginRequest.username());
 
         if (user.isEmpty() || !user.get().isLoginCorrect(loginRequest, passwordEncoder)) {
-            throw new BadCredentialsException("user or password is invalid!");
+            throw new BadCredentialsException("Usuario ou password incorreto !!");
         }
 
         var now = Instant.now();
-        var expiresIn = 300L;
+        var expiresIn = 500L;
 
         var scopes = user.get().getRoles()
                 .stream()
@@ -50,7 +50,7 @@ public class TokenController {
                 .collect(Collectors.joining(" "));
 
         var claims = JwtClaimsSet.builder()
-                .issuer("mybackend")
+                .issuer("fiapx-security")
                 .subject(user.get().getUserId().toString())
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiresIn))
