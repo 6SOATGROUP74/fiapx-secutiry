@@ -1,0 +1,138 @@
+name: "Build and publish"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: "ubuntu-22.04"
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build with maven
+        run: mvn clean package
+
+  test:
+    runs-on: "ubuntu-22.04"
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run Tests
+        run: mvn test
+
+  sonarcloud:
+    runs-on: "ubuntu-22.04"
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build and Test
+        run: mvn clean verify
+
+      - name: SonarCloud Scan
+        run: |
+          mvn sonar:sonar \
+          -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+          -Dsonar.projectKey==6SOATGROUP74_fiapx-secutiry \
+          -Dsonar.organization=shogun-lanches \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.qualitygate.wait=true \
+          -Dsonar.sources=src/main \
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+          -Dsonar.branch.name=${GITHUB_REF#refs/heads/}
+
+  publish-docker-hub:
+    needs: [test, build, sonarcloud]
+    runs-on: "ubuntu-22.04"
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Generated jar
+        run: mvn clean package
+
+      - name: Valida targets
+        run : ls -la
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: 6soatgroup74/fiapx-security:prod
+
+  deploy:
+    name: Deploy to EKS
+    needs: [publish-docker-hub]
+    runs-on: "ubuntu-22.04"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name fiapx-cluster-eks --region us-east-1
+
+      - name: Valida diretorio
+        run: ls -la
+
+      - name: Deploy to EKS
+        run: |
+          kubectl apply -f infra/app/app-configmap.yaml
+          kubectl apply -f infra/app/app-deployment.yaml
+          kubectl apply -f infra/app/app-hpa.yaml
+          kubectl apply -f infra/app/app-nlb.yaml
+          kubectl apply -f infra/app/app-svc.yaml
+          kubectl apply -f infra/service-account.yaml

@@ -14,7 +14,6 @@ spec:
       labels:
         app: app-security-pod
     spec:
-      serviceAccountName: rds-access-sa
       containers:
         - name: app-container
           image: 6soatgroup74/fiapx-security:prod
