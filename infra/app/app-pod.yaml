@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-security-pod
+  labels:
+    app: app-security-pod
+spec:
+  containers:
+    - name: app-security-container
+      image: igoryy/fiap-6soat:2
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 8091

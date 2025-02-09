@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-security-deployment
+  labels:
+    app: app-security-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-security-pod
+  template:
+    metadata:
+      labels:
+        app: app-security-pod
+    spec:
+      containers:
+        - name: app-container
+          image: 6soatgroup74/fiapx-security:prod
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: app-security-configmap
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-security-opaque
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-security-opaque
+                  key: DB_PASSWORD
+          readinessProbe:
+            httpGet:
+              path: actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 60
+          startupProbe:
+            httpGet:
+              path: actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            failureThreshold: 30
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 200m

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-security-configmap
+data:
+  MYSQL_URL: jdbc:mysql://fiapx-security-database.cqqf1skb41ad.us-east-1.rds.amazonaws.com/db_security
+
